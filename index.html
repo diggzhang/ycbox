@@ -1,10 +1,12 @@
 <p>Socket.io Start</p>
+<p>IP Listening...</p>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  //var socket = io('http://10.8.3.164:8000');
-  var socket = io('http://localhost:8000');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
+    //var socket = io('http://10.8.3.164:8000');
+    var socket = io('http://localhost:8000');
+    socket.on('ipListen', function (data) {
+        console.log(data);
+
+        socket.emit('successGetIp', { SuccessSendIP: "ok" });
+    });
 </script>

@@ -18,5 +18,51 @@ Box.prototype.save = function (callback) {
         if (err) {
             return callback(err);
         };
+
+        db.collection('boxes', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            };
+
+            collection.insert(box, {
+	            safe: true
+            }, function (err, box) {
+	            mongodb.close();
+	            if (err) {
+		            return callback(err);
+	            }
+	            callback(null, box[0]);
+            });
+        });
     });
+};
+
+Box.get = function (ipAddress, callback) {
+    mongodb.open(function (err, db) {
+        if (err) {
+            mongodb.close();
+            return callback(err);
+        };
+
+        db.collection('boxes', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            };
+
+            collection.findOne({
+                ipAddress: ipAddress
+            }, function (err, ipAddress) {
+                mongodb.close();
+
+                if (err) {
+                    return callback(err);
+                }
+
+                callback(null, ipAddress);
+            });
+        })
+    });
+    
 };
